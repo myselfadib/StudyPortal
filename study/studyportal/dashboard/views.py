@@ -1,7 +1,8 @@
 from turtle import title
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . forms import *
 from django.contrib import messages
+from django.views import generic
 # Create your views here.
 def home(request):
     return render(request,'dashboard/home.html')
@@ -18,3 +19,12 @@ def notes(request):
     notes = Notes.objects.filter(user=request.user)
     context = {'notes':notes,'form':form}
     return render(request,'dashboard/notes.html',context)    
+
+def delete_note(request,pk=None):
+    Notes.objects.get(id=pk).delete()
+    return redirect("notes")
+
+
+class NotesDetailView(generic.DetailView):
+    model = Notes
+
