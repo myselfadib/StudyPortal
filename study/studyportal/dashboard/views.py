@@ -100,8 +100,8 @@ def youtube(request):
                 'thumbnail':i['thumbnails'][0]['url'],
                 'channel':i['channel']['name'],
                 'link':i['link'],
-                'view':i['viewcount']['short'],
-                'published':i['publishedtime'],
+                'view':i['viewCount']['short'],
+                'published':i['publishedTime'],
 
             }
             desc = ''
@@ -118,3 +118,39 @@ def youtube(request):
     
     context = {'form':form}
     return render(request, 'dashboard/youtube.html',context)
+
+
+def todo(request):
+    if request.method == 'POST':
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            try:
+                finished = request.POST['is_finished']
+                if finished == 'on':
+                    finished = True
+                else:
+                    finished = False
+            except:
+                finished = False
+            todos = ToDo(
+                user = request.user,
+                title = request.POST['title'],
+                is_finished = finished,
+            )      
+            todos.save()
+            messages.success(request,f"Todo Added From {request.user.username}")  
+    else:
+        form = TodoForm()
+
+    
+    todo = ToDo.objects.filter(user=request.user)
+    if len(todo) == 0:
+        todos_done = True
+    else:
+        todos_done = False    
+    context = {
+        'todo':todo ,
+        'form':form,
+        'todos_done':todos_done,
+    } 
+    return render(request,'dashboard/todo.html',context)
