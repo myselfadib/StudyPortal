@@ -154,3 +154,17 @@ def todo(request):
         'todos_done':todos_done,
     } 
     return render(request,'dashboard/todo.html',context)
+
+def update_todo(request,pk=None):
+    todo = ToDo.objects.get(id=pk)
+    if todo.is_finished == True:
+        todo.is_finished = False
+    else:
+        todo.is_finished = True
+    todo.save()
+    return redirect('todo')   
+
+def delete_todo(request,pk=None):
+    
+    ToDo.objects.get(id=pk).delete()  
+    return redirect('todo')           
