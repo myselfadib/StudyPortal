@@ -175,7 +175,7 @@ def books(request):
     if request.method == 'POST':
         form = DashboardForm(request.POST)
         text = request.POST['text']
-        url = 'https://www.googleapis.com/books/v1/volumns?q='+text
+        url = 'https://www.googleapis.com/books/v1/volumes?q='+text
         r = requests.get(url)
         answer = r.json()
 
@@ -189,7 +189,7 @@ def books(request):
                 'count':answer['items'][i]['volumeInfo'].get('pageCount'),
                 'categories':answer['items'][i]['volumeInfo'].get('categories'),
                 'rating':answer['items'][i]['volumeInfo'].get('pageRating'),
-                'thumbnail':answer['items'][i]['volumeInfo'].get('imageLinks'),
+                'thumbnail':answer['items'][i]['volumeInfo'].get('imageLinks').get('thumbnail'),
                 'preview':answer['items'][i]['volumeInfo'].get('previewLink'),
                 
                 
