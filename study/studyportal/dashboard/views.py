@@ -206,3 +206,5 @@ def books(request):
     context = {'form':form}
     return render(request, 'dashboard/books.html',context)
 
+def dictionary(request):
+    return render(request,'dashboard/dictionary.html')
