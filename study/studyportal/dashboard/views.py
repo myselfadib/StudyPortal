@@ -250,3 +250,10 @@ def dictionary(request):
         'form':form
     }
     return render(request,'dashboard/dictionary.html',context)
+
+def wiki(request):
+    form = DashboardForm()
+    context = {
+        'form':form
+    }
+    return render(request,'dashboard/wiki.html',context)    
